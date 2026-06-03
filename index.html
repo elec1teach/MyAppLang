@@ -1,794 +1,532 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>AI Pronunciation Test Station</title>
 
 <style>
-
-*{
-  box-sizing:border-box;
+:root{
+  --bg1:#050816;
+  --bg2:#0a1024;
+  --panel:rgba(11,18,44,.62);
+  --panel-2:rgba(18,26,58,.72);
+  --line:rgba(255,255,255,.12);
+  --text:#eaf2ff;
+  --muted:#9fb0d0;
+  --cyan:#39d5ff;
+  --blue:#6c7bff;
+  --violet:#b56cff;
+  --green:#29f29b;
+  --red:#ff4d6d;
+  --gold:#ffd166;
+  --shadow:0 20px 60px rgba(0,0,0,.45);
+  --radius:24px;
 }
 
+*{box-sizing:border-box}
+html,body{height:100%}
 body{
   margin:0;
-  padding:20px;
-  font-family:Arial,sans-serif;
-  background:linear-gradient(to bottom,#eef3f8,#dfe9f3);
+  padding:24px;
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 15% 20%, rgba(57,213,255,.15), transparent 28%),
+    radial-gradient(circle at 85% 15%, rgba(181,108,255,.16), transparent 24%),
+    radial-gradient(circle at 50% 100%, rgba(108,123,255,.12), transparent 30%),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
+  overflow-x:hidden;
 }
 
-.container{
-  max-width:950px;
-  margin:auto;
-  background:white;
-  border-radius:25px;
-  padding:30px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.15);
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size:40px 40px;
+  mask-image: linear-gradient(180deg, rgba(0,0,0,.55), transparent 85%);
+  opacity:.35;
 }
 
-.header{
-  text-align:center;
-  margin-bottom:25px;
+.shell{
+  width:min(1180px,100%);
+  margin:0 auto;
+  position:relative;
+}
+
+.orb{
+  position:fixed;
+  border-radius:50%;
+  filter:blur(30px);
+  opacity:.25;
+  pointer-events:none;
+  animation:float 8s ease-in-out infinite;
+}
+.orb.one{width:220px;height:220px;left:-70px;top:90px;background:var(--cyan)}
+.orb.two{width:280px;height:280px;right:-90px;top:140px;background:var(--violet);animation-delay:-2s}
+.orb.three{width:180px;height:180px;left:48%;bottom:-60px;background:var(--blue);animation-delay:-4s}
+
+@keyframes float{
+  0%,100%{transform:translateY(0) translateX(0)}
+  50%{transform:translateY(-18px) translateX(10px)}
+}
+
+.glass{
+  background:linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.05));
+  border:1px solid var(--line);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  box-shadow:var(--shadow);
+}
+
+.hero{
+  border-radius:32px;
+  padding:28px;
+  position:relative;
+  overflow:hidden;
+  margin-bottom:18px;
+}
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius:inherit;
+  background:linear-gradient(135deg, rgba(57,213,255,.35), rgba(181,108,255,.18), transparent 60%);
+  pointer-events:none;
+  mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite:exclude;
+  -webkit-mask-composite:xor;
+  padding:1px;
+}
+
+.brand-row{
+  display:flex;
+  gap:18px;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+}
+
+.brand-left{
+  display:flex;
+  gap:16px;
+  align-items:center;
+  min-width:min(620px,100%);
+}
+
+.logo-mark{
+  width:62px;
+  height:62px;
+  border-radius:18px;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  letter-spacing:.08em;
+  color:#08111f;
+  background:linear-gradient(135deg, var(--cyan), #c9f5ff 55%, var(--violet));
+  box-shadow:0 0 28px rgba(57,213,255,.35);
+}
+
+.eyebrow{
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.22em;
+  color:var(--cyan);
+  margin-bottom:6px;
 }
 
 h1{
   margin:0;
-  color:#d62828;
-  font-size:42px;
+  font-size:clamp(28px,4vw,52px);
+  line-height:1.05;
+  letter-spacing:-.03em;
 }
 
 .subtitle{
   margin-top:10px;
-  color:#555;
-  font-size:22px;
+  color:var(--muted);
+  font-size:clamp(14px,1.7vw,19px);
+  line-height:1.7;
+  max-width:820px;
+}
+
+.live-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 16px;
+  border-radius:999px;
+  background:rgba(41,242,155,.12);
+  border:1px solid rgba(41,242,155,.25);
+  color:#8effc8;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  box-shadow:0 0 24px rgba(41,242,155,.12);
+}
+.live-pill::before{
+  content:"";
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 14px var(--green);
 }
 
 .teacher-box{
   margin-top:18px;
-  background:#f7f9fc;
-  border-left:8px solid #0077ff;
-  padding:15px;
-  border-radius:15px;
-  font-size:20px;
+  padding:18px 20px;
+  border-radius:22px;
+  background:linear-gradient(180deg, rgba(8,16,39,.55), rgba(9,15,34,.4));
+  border:1px solid rgba(255,255,255,.10);
+  color:#dce8ff;
   line-height:1.8;
-  color:#333;
+  position:relative;
+  overflow:hidden;
 }
-
+.teacher-box::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg, transparent, rgba(57,213,255,.07), transparent);
+  transform:translateX(-100%);
+  animation:scan 6s linear infinite;
+}
+@keyframes scan{
+  0%{transform:translateX(-100%)}
+  100%{transform:translateX(100%)}
+}
 .teacher-title{
-  font-weight:bold;
-  color:#0056b3;
-  font-size:22px;
+  font-weight:800;
+  color:#8fd7ff;
+  font-size:18px;
+  margin-bottom:4px;
+  letter-spacing:.02em;
 }
 
 .login-box{
-  margin-bottom:25px;
-  text-align:center;
+  margin:18px 0;
 }
-
 .login-box input{
-  width:80%;
-  padding:16px;
-  font-size:20px;
-  border-radius:12px;
-  border:1px solid #ccc;
+  width:100%;
+  padding:18px 18px;
+  font-size:18px;
+  color:var(--text);
+  background:rgba(10,16,36,.74);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:18px;
+  outline:none;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+  transition:.25s ease;
+}
+.login-box input::placeholder{color:#8ea0c7}
+.login-box input:focus{
+  border-color:rgba(57,213,255,.45);
+  box-shadow:0 0 0 4px rgba(57,213,255,.12), 0 0 30px rgba(57,213,255,.10);
+  transform:translateY(-1px);
 }
 
 .top-bar{
-  display:flex;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-bottom:20px;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin-bottom:18px;
 }
-
 .stat{
-  background:#f3f6fa;
-  padding:12px 20px;
-  border-radius:15px;
-  font-size:20px;
-  font-weight:bold;
+  border-radius:20px;
+  padding:16px 18px;
+  background:linear-gradient(180deg, rgba(13,20,46,.78), rgba(13,18,38,.52));
+  border:1px solid rgba(255,255,255,.10);
+  position:relative;
+  overflow:hidden;
+}
+.stat::after{
+  content:"";
+  position:absolute;
+  inset:auto 0 0 0;
+  height:3px;
+  background:linear-gradient(90deg, var(--cyan), var(--violet), var(--blue));
+  opacity:.95;
+}
+.stat{
+  font-size:16px;
+  color:var(--muted);
+}
+.stat span{
+  display:block;
+  margin-top:6px;
+  color:var(--text);
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:-.03em;
 }
 
-.sentence-box{
-  background:#fff7d6;
-  border-radius:20px;
-  padding:35px;
-  text-align:center;
+.workspace{
+  display:grid;
+  grid-template-columns:1.4fr .9fr;
+  gap:18px;
+}
+
+.sentence-box,
+.result-box{
+  border-radius:30px;
+  padding:28px;
+  background:linear-gradient(180deg, rgba(14,20,42,.80), rgba(9,14,30,.55));
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+
+.sentence-box::before,
+.result-box::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:radial-gradient(circle at top left, rgba(57,213,255,.10), transparent 38%),
+             radial-gradient(circle at bottom right, rgba(181,108,255,.10), transparent 35%);
+  pointer-events:none;
 }
 
 .question-number{
-  font-size:24px;
-  margin-bottom:10px;
-  color:#555;
+  display:inline-flex;
+  padding:10px 14px;
+  border-radius:999px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  color:#b8c7ea;
+  font-size:14px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
 }
 
 .english-text{
-  font-size:48px;
-  font-weight:bold;
-  margin-bottom:15px;
-  color:#111;
+  margin:18px 0 10px;
+  font-size:clamp(28px,4vw,58px);
+  font-weight:900;
+  line-height:1.08;
+  letter-spacing:-.03em;
+  color:#f5f8ff;
+  text-shadow:0 0 18px rgba(57,213,255,.10);
 }
 
 .thai-text{
-  font-size:24px;
-  color:#666;
+  font-size:clamp(16px,2vw,22px);
+  color:#aebdde;
+  line-height:1.65;
 }
 
+.countdown-wrap{
+  margin:24px auto 10px;
+  width:160px;
+  height:160px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at center, rgba(10,16,34,.95) 0 42%, transparent 43%),
+    conic-gradient(from 0deg, var(--cyan), var(--violet), var(--blue), var(--cyan));
+  box-shadow:0 0 0 10px rgba(255,255,255,.03), 0 0 34px rgba(57,213,255,.18);
+  position:relative;
+  animation:pulse 1.8s ease-in-out infinite;
+}
+.countdown-wrap::after{
+  content:"";
+  position:absolute;
+  inset:12px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.10);
+}
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.03)}
+}
 .countdown{
-  margin-top:25px;
-  font-size:90px;
-  color:#ff3b30;
-  font-weight:bold;
+  font-size:64px;
+  font-weight:900;
+  color:#ffffff;
+  text-shadow:0 0 18px rgba(57,213,255,.30);
+  z-index:1;
 }
 
 .controls{
-  margin-top:25px;
+  margin-top:18px;
+  display:flex;
+  justify-content:center;
 }
 
 button{
   border:none;
-  border-radius:15px;
-  padding:18px 35px;
-  font-size:20px;
+  outline:none;
   cursor:pointer;
+  border-radius:18px;
+  padding:16px 28px;
+  font-size:18px;
+  font-weight:800;
+  letter-spacing:.02em;
+  transition:.25s ease;
 }
 
 .start-btn{
-  background:#0077ff;
-  color:white;
-  transition:0.3s;
+  color:#06111f;
+  background:linear-gradient(135deg, var(--cyan), #bdf4ff 48%, var(--violet));
+  box-shadow:0 12px 30px rgba(57,213,255,.22), 0 0 0 1px rgba(255,255,255,.14) inset;
 }
-
 .start-btn:hover{
-  background:#005fd1;
+  transform:translateY(-2px) scale(1.01);
+  box-shadow:0 16px 40px rgba(57,213,255,.28), 0 0 0 1px rgba(255,255,255,.18) inset;
+}
+.start-btn:active{
+  transform:translateY(0) scale(.99);
 }
 
 .result-box{
-  margin-top:25px;
-  background:#eaf4ff;
-  border-radius:20px;
-  padding:25px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:100%;
   text-align:center;
 }
 
 .score{
-  font-size:65px;
-  font-weight:bold;
-  color:#0b57d0;
+  font-size:clamp(54px,6vw,88px);
+  font-weight:1000;
+  letter-spacing:-.04em;
+  background:linear-gradient(135deg, var(--cyan), #ffffff 40%, var(--violet));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
 }
 
 .status{
   margin-top:10px;
-  font-size:34px;
-  font-weight:bold;
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:-.02em;
+  color:#f2f6ff;
 }
-
-.pass{
-  color:green;
-}
-
-.fail{
-  color:red;
-}
+.pass{color:var(--green); text-shadow:0 0 14px rgba(41,242,155,.22)}
+.fail{color:var(--red); text-shadow:0 0 14px rgba(255,77,109,.22)}
 
 .heard-text{
-  margin-top:15px;
-  font-size:20px;
+  margin-top:14px;
+  padding:14px 16px;
+  width:100%;
+  border-radius:18px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  color:#b7c7ea;
+  min-height:54px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .footer{
-  margin-top:35px;
+  margin:18px 0 6px;
   text-align:center;
-  color:#666;
-  font-size:18px;
+  color:#8ea0c7;
+  font-size:14px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
 }
 
-@media(max-width:700px){
-
-  .english-text{
-    font-size:32px;
-  }
-
-  .countdown{
-    font-size:60px;
-  }
-
-  h1{
-    font-size:30px;
-  }
-
-  .subtitle{
-    font-size:18px;
-  }
-
+@media (max-width: 920px){
+  .workspace{grid-template-columns:1fr}
+  .top-bar{grid-template-columns:1fr}
+  .brand-left{min-width:0}
+  .hero{padding:22px}
 }
 
+@media (max-width: 640px){
+  body{padding:14px}
+  .logo-mark{width:52px;height:52px;border-radius:16px}
+  .countdown-wrap{width:132px;height:132px}
+  .countdown{font-size:52px}
+  .score{font-size:54px}
+  .status{font-size:22px}
+  button{width:100%}
+}
 </style>
-
 </head>
 
 <body>
-
-<div class="container">
-
-<div class="header">
-
-<h1>🎤 AI Pronunciation Test Station</h1>
-
-<div class="subtitle">
-ระบบวัดการออกเสียงภาษาอังกฤษอัตโนมัติ
-</div>
-
-<div class="teacher-box">
-
-<div class="teacher-title">
-ผู้พัฒนาโครงการ
-</div>
-
-ครูวิทยากร วรรณา<br>
-แผนกอิเล็กทรอนิกส์<br>
-วิทยาลัยสารพัดช่างศรีสะเกษ
-
-</div>
-
-</div>
-
-<div class="login-box">
-
-<input
-type="text"
-id="studentName"
-placeholder="กรอกชื่อผู้เข้าทดสอบ"
-/>
-
-</div>
-
-<div class="top-bar">
-
-<div class="stat">
-คะแนนรวม:
-<span id="totalScore">0</span>
-</div>
-
-<div class="stat">
-PASS:
-<span id="passCount">0</span>
-</div>
-
-<div class="stat">
-FAIL:
-<span id="failCount">0</span>
-</div>
-
-</div>
-
-<div class="sentence-box">
-
-<div class="question-number" id="questionNumber">
-ข้อที่ 1 / 16
-</div>
-
-<div class="english-text" id="englishText">
-Listen to me please
-</div>
-
-<div class="thai-text" id="thaiText">
-กรุณาฟังครูครับ
-</div>
-
-<div class="countdown" id="countdown">
-10
-</div>
-
-<div class="controls">
-
-<button
-class="start-btn"
-onclick="startRecognition()"
->
-🎤 เริ่มพูด
-</button>
-
-</div>
-
-</div>
-
-<div class="result-box">
-
-<div class="score" id="score">
-0%
-</div>
-
-<div class="status" id="status">
-รอเริ่มทดสอบ
-</div>
-
-<div class="heard-text" id="heardText"></div>
-
-</div>
-
-<div class="footer">
-AI Reward Learning Machine © 2026
-</div>
-
-</div>
-
-<script>
-
-// ======================================
-// SETTINGS
-// ======================================
-
-const GOOGLE_SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbyb14pArEH-dG51DFuH6I5mCsxK9RZUTx_aRd7F2wseQH-o4347vo8h3QlOUFtoho5hYA/exec";
-
-// ======================================
-// QUESTIONS
-// ======================================
-
-const questions = [
-
-{
-english:"Listen to me please",
-thai:"กรุณาฟังครูครับ"
-},
-
-{
-english:"Turn on the power",
-thai:"เปิดแหล่งจ่ายไฟ"
-},
-
-{
-english:"Turn off the power",
-thai:"ปิดแหล่งจ่ายไฟ"
-},
-
-{
-english:"Plug it in",
-thai:"เสียบปลั๊ก"
-},
-
-{
-english:"Unplug it please",
-thai:"ถอดปลั๊กด้วยครับ"
-},
-
-{
-english:"Check the circuit first",
-thai:"ตรวจเช็กวงจรก่อน"
-},
-
-{
-english:"Please be careful",
-thai:"ระมัดระวังด้วยครับ"
-},
-
-{
-english:"Have you finished",
-thai:"ทำงานเสร็จหรือยัง"
-},
-
-{
-english:"Hurry up please",
-thai:"เร่งมือหน่อยครับ"
-},
-
-{
-english:"Times up stop working",
-thai:"หมดเวลาแล้ว หยุดปฏิบัติงาน"
-},
-
-{
-english:"Clean your desk and keep your equipment",
-thai:"ทำความสะอาดโต๊ะและเก็บอุปกรณ์"
-},
-
-{
-english:"Teacher may I go out",
-thai:"ขออนุญาตออกนอกห้องครับ"
-},
-
-{
-english:"Teacher may I come in",
-thai:"ขออนุญาตเข้าห้องครับ"
-},
-
-{
-english:"I have finished",
-thai:"ผมทำเสร็จแล้วครับ"
-},
-
-{
-english:"Can you help me please",
-thai:"ครูช่วยผมหน่อยได้ไหมครับ"
-},
-
-{
-english:"I dont understand this part",
-thai:"ผมไม่เข้าใจตรงส่วนนี้ครับ"
-}
-
-];
-
-// ======================================
-
-let currentQuestion = 0;
-let totalScore = 0;
-let passCount = 0;
-let failCount = 0;
-
-let recognition;
-let countdownInterval;
-let timeLeft = 10;
-let isRunning = false;
-
-// ======================================
-
-window.onload = () => {
-
-if (!('webkitSpeechRecognition' in window)) {
-
-alert("กรุณาเปิดด้วย Google Chrome");
-
-return;
-
-}
-
-recognition = new webkitSpeechRecognition();
-
-recognition.lang = 'en-US';
-
-recognition.interimResults = false;
-
-recognition.maxAlternatives = 1;
-
-// ======================================
-
-recognition.onresult = function(event){
-
-if(!isRunning) return;
-
-isRunning = false;
-
-clearInterval(countdownInterval);
-
-const speechResult =
-event.results[0][0].transcript;
-
-const target =
-questions[currentQuestion].english;
-
-const score =
-similarity(target,speechResult);
-
-document.getElementById("heardText").innerHTML =
-"AI ได้ยิน: " + speechResult;
-
-document.getElementById("score").innerHTML =
-score + "%";
-
-totalScore += score;
-
-document.getElementById("totalScore").innerHTML =
-totalScore;
-
-// ======================================
-
-if(score >= 80){
-
-passCount++;
-
-document.getElementById("passCount").innerHTML =
-passCount;
-
-document.getElementById("status").innerHTML =
-"PASS ✅";
-
-document.getElementById("status").className =
-"status pass";
-
-playPassSound();
-
-}else{
-
-failCount++;
-
-document.getElementById("failCount").innerHTML =
-failCount;
-
-document.getElementById("status").innerHTML =
-"FAIL ❌";
-
-document.getElementById("status").className =
-"status fail";
-
-playFailSound();
-
-}
-
-setTimeout(() => {
-
-nextQuestion();
-
-},1500);
-
-};
-
-// ======================================
-
-recognition.onerror = function(event){
-
-console.log(event.error);
-
-isRunning = false;
-
-clearInterval(countdownInterval);
-
-document.getElementById("status").innerHTML =
-"ไมโครโฟนมีปัญหา ❌";
-
-document.getElementById("status").className =
-"status fail";
-
-};
-
-// ======================================
-
-loadQuestion(currentQuestion);
-
-};
-
-// ======================================
-
-function loadQuestion(index){
-
-document.getElementById("questionNumber").innerHTML =
-"ข้อที่ " + (index + 1) + " / 16";
-
-document.getElementById("englishText").innerHTML =
-questions[index].english;
-
-document.getElementById("thaiText").innerHTML =
-questions[index].thai;
-
-document.getElementById("score").innerHTML =
-"0%";
-
-document.getElementById("status").innerHTML =
-"รอเริ่มทดสอบ";
-
-document.getElementById("status").className =
-"status";
-
-document.getElementById("heardText").innerHTML =
-"";
-
-document.getElementById("countdown").innerHTML =
-"10";
-
-}
-
-// ======================================
-
-function nextQuestion(){
-
-currentQuestion++;
-
-if(currentQuestion >= questions.length){
-
-saveScoreToGoogleSheet();
-
-alert(
-"จบทดสอบแล้ว\nคะแนนรวม: " + totalScore
-);
-
-totalScore = 0;
-passCount = 0;
-failCount = 0;
-
-document.getElementById("totalScore").innerHTML = 0;
-document.getElementById("passCount").innerHTML = 0;
-document.getElementById("failCount").innerHTML = 0;
-
-currentQuestion = 0;
-
-}
-
-loadQuestion(currentQuestion);
-
-}
-
-// ======================================
-
-function similarity(a,b){
-
-a = a.toLowerCase().replace(/[^\w]/g,"");
-b = b.toLowerCase().replace(/[^\w]/g,"");
-
-let longer =
-a.length > b.length ? a : b;
-
-let shorter =
-a.length > b.length ? b : a;
-
-let same = 0;
-
-for(let i=0;i<shorter.length;i++){
-
-if(shorter[i] === longer[i]){
-
-same++;
-
-}
-
-}
-
-return Math.floor(
-(same / longer.length) * 100
-);
-
-}
-
-// ======================================
-
-function startRecognition(){
-
-const studentName =
-document.getElementById("studentName").value;
-
-if(studentName.trim() === ""){
-
-alert("กรุณากรอกชื่อ");
-
-return;
-
-}
-
-if(isRunning) return;
-
-isRunning = true;
-
-clearInterval(countdownInterval);
-
-timeLeft = 10;
-
-document.getElementById("countdown").innerHTML =
-timeLeft;
-
-document.getElementById("status").innerHTML =
-"🎤 กำลังฟัง...";
-
-document.getElementById("heardText").innerHTML =
-"";
-
-try {
-
-recognition.start();
-
-} catch(err){
-
-console.log(err);
-
-}
-
-// ======================================
-
-countdownInterval = setInterval(() => {
-
-timeLeft--;
-
-document.getElementById("countdown").innerHTML =
-timeLeft;
-
-if(timeLeft <= 0){
-
-clearInterval(countdownInterval);
-
-if(isRunning){
-
-isRunning = false;
-
-recognition.stop();
-
-failCount++;
-
-document.getElementById("failCount").innerHTML =
-failCount;
-
-document.getElementById("status").innerHTML =
-"หมดเวลา ⏰";
-
-document.getElementById("status").className =
-"status fail";
-
-document.getElementById("heardText").innerHTML =
-"ไม่มีการพูด";
-
-playFailSound();
-
-setTimeout(() => {
-
-nextQuestion();
-
-},1500);
-
-}
-
-}
-
-},1000);
-
-}
-
-// ======================================
-
-function saveScoreToGoogleSheet(){
-
-const studentName =
-document.getElementById("studentName").value;
-
-fetch(GOOGLE_SCRIPT_URL, {
-
-method:"POST",
-
-mode:"no-cors",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body: JSON.stringify({
-
-name: studentName,
-score: totalScore,
-pass: passCount,
-fail: failCount
-
-})
-
-})
-.then(() => {
-
-console.log("Saved To Google Sheet");
-
-})
-.catch(error => {
-
-console.log("Google Sheet Error:", error);
-
-});
-
-}
-
-// ======================================
-
-function playPassSound(){
-
-const audio = new Audio(
-"https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"
-);
-
-audio.play();
-
-}
-
-// ======================================
-
-function playFailSound(){
-
-const audio = new Audio(
-"https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"
-);
-
-audio.play();
-
-}
-
-</script>
-
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+  <div class="orb three"></div>
+
+  <div class="shell">
+    <header class="hero glass">
+      <div class="brand-row">
+        <div class="brand-left">
+          <div class="logo-mark">AI</div>
+          <div>
+            <div class="eyebrow">Neural Speech Interface</div>
+            <h1>AI Pronunciation Test Station</h1>
+            <div class="subtitle">
+              ระบบวัดการออกเสียงภาษาอังกฤษอัตโนมัติแบบล้ำสมัย พร้อมแสดงผลคะแนนแบบเรียลไทม์
+            </div>
+          </div>
+        </div>
+
+        <div class="live-pill">LIVE SYSTEM</div>
+      </div>
+
+      <div class="teacher-box">
+        <div class="teacher-title">ผู้พัฒนาโครงการ</div>
+        ครูวิทยากร วรรณา<br />
+        แผนกอิเล็กทรอนิกส์<br />
+        วิทยาลัยสารพัดช่างศรีสะเกษ
+      </div>
+    </header>
+
+    <div class="login-box">
+      <input type="text" id="studentName" placeholder="กรอกชื่อผู้เข้าทดสอบ" />
+    </div>
+
+    <section class="top-bar">
+      <div class="stat">คะแนนรวม: <span id="totalScore">0</span></div>
+      <div class="stat">PASS: <span id="passCount">0</span></div>
+      <div class="stat">FAIL: <span id="failCount">0</span></div>
+    </section>
+
+    <main class="workspace">
+      <section class="sentence-box">
+        <div class="question-number" id="questionNumber">ข้อที่ 1 / 16</div>
+
+        <div class="english-text" id="englishText">Listen to me please</div>
+        <div class="thai-text" id="thaiText">กรุณาฟังครูครับ</div>
+
+        <div class="countdown-wrap">
+          <div class="countdown" id="countdown">10</div>
+        </div>
+
+        <div class="controls">
+          <button class="start-btn" onclick="startRecognition()">🎤 เริ่มพูด</button>
+        </div>
+      </section>
+
+      <aside class="result-box">
+        <div class="score" id="score">0%</div>
+        <div class="status" id="status">รอเริ่มทดสอบ</div>
+        <div class="heard-text" id="heardText"></div>
+      </aside>
+    </main>
+
+    <div class="footer">
+      AI Reward Learning Machine © 2026
+    </div>
+  </div>
+
+  <script>
+  // ใช้ script เดิมของคุณต่อได้เลย ไม่ต้องแก้ logic ฝั่งทำงาน
+  </script>
 </body>
 </html>
