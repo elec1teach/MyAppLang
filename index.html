@@ -4,7 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>AI Pronunciation Test Station</title>
 
@@ -206,24 +206,6 @@ background:var(--green);
 box-shadow:0 0 15px var(--green);
 }
 
-/* TEACHER BOX */
-.teacher-box{
-margin-top:25px;
-padding:20px;
-border-radius:22px;
-background:rgba(255,255,255,0.03);
-border:1px solid rgba(255,255,255,0.08);
-line-height:1.9;
-font-size:18px;
-}
-
-.teacher-title{
-font-weight:bold;
-color:#90dfff;
-margin-bottom:8px;
-font-size:20px;
-}
-
 /* INPUT */
 .login-box{
 margin-bottom:20px;
@@ -263,6 +245,7 @@ padding:18px;
 border-radius:22px;
 position:relative;
 overflow:hidden;
+text-align:center;
 }
 
 .stat::after{
@@ -300,6 +283,7 @@ padding:35px;
 border-radius:30px;
 position:relative;
 overflow:hidden;
+text-align:center;
 }
 
 .question-number{
@@ -445,6 +429,25 @@ align-items:center;
 justify-content:center;
 }
 
+/* TEACHER BOX */
+.teacher-box{
+margin-top:25px;
+padding:20px;
+border-radius:22px;
+background:rgba(255,255,255,0.03);
+border:1px solid rgba(255,255,255,0.08);
+line-height:1.9;
+font-size:18px;
+text-align:center;
+}
+
+.teacher-title{
+font-weight:bold;
+color:#90dfff;
+margin-bottom:8px;
+font-size:20px;
+}
+
 /* FOOTER */
 .footer{
 margin-top:25px;
@@ -454,26 +457,54 @@ font-size:14px;
 letter-spacing:2px;
 }
 
-/* RESPONSIVE */
+/* RESPONSIVE (ปรับแต่งพิเศษให้พอดีกับจอสมาร์ทโฟน) */
 @media(max-width:900px){
 .main-grid{ grid-template-columns:1fr; }
-.top-bar{ grid-template-columns:1fr; }
 h1{ font-size:38px; }
 .english-text{ font-size:42px; }
 }
 
 @media(max-width:600px){
-body{ padding:14px; }
-.logo{ width:58px; height:58px; font-size:24px; }
-h1{ font-size:28px; }
-.subtitle{ font-size:16px; }
-.english-text{ font-size:32px; }
-.countdown-wrapper{ width:145px; height:145px; }
-.countdown-wrapper::before{ width:115px; height:115px; }
-.countdown{ font-size:52px; }
-.score{ font-size:60px; }
-button{ width:100%; }
+body{ padding:8px; }
+.header{ padding:15px; margin-bottom:12px; border-radius:20px; }
+.top-header{ gap:10px; }
+.logo-area{ gap:12px; }
+.logo{ width:45px; height:45px; font-size:18px; border-radius:12px; }
+h1{ font-size:20px; letter-spacing:0px; }
+.subtitle{ font-size:12px; margin-top:5px; line-height:1.4; }
+.live{ padding:6px 12px; font-size:10px; }
+
+.login-box{ margin-bottom:12px; }
+.login-box input{ padding:12px; font-size:16px; border-radius:12px; }
+
+/* ทำให้หน้าจอเล็กแสดงกล่องคะแนนเป็น 3 คอลัมน์ ไม่ให้กินพื้นที่แนวตั้ง */
+.top-bar{ gap:8px; margin-bottom:12px; grid-template-columns:repeat(3,1fr); }
+.stat{ padding:10px; border-radius:15px; }
+.stat-title{ font-size:10px; }
+.stat-value{ margin-top:5px; font-size:18px; }
+
+.sentence-box{ padding:20px; border-radius:20px; }
+.question-number{ font-size:12px; padding:6px 12px; }
+.english-text{ font-size:26px; margin-top:15px; }
+.thai-text{ font-size:16px; margin-top:8px; }
+
+.countdown-wrapper{ margin:20px auto 10px; width:100px; height:100px; }
+.countdown-wrapper::before{ width:80px; height:80px; }
+.countdown{ font-size:36px; }
+
+.controls{ margin-top:15px; }
+button{ width:100%; padding:14px; font-size:18px; border-radius:14px; }
+
+.result-box{ padding:20px; border-radius:20px; margin-top:12px; }
+.score{ font-size:50px; }
+.status{ font-size:24px; margin-top:5px; }
+.heard-text{ font-size:14px; padding:12px; margin-top:12px; min-height:auto; }
+
+.teacher-box{ margin-top:15px; padding:15px; border-radius:15px; font-size:14px; }
+.teacher-title{ font-size:16px; margin-bottom:5px; }
+.footer{ margin-top:15px; margin-bottom:15px; font-size:12px; }
 }
+
 </style>
 </head>
 
@@ -495,12 +526,6 @@ button{ width:100%; }
 </div>
 </div>
 <div class="live">SYSTEM ONLINE</div>
-</div>
-<div class="teacher-box">
-<div class="teacher-title">ผู้พัฒนาโครงการ</div>
-ครูวิทยากร วรรณา<br>
-แผนกอิเล็กทรอนิกส์<br>
-วิทยาลัยสารพัดช่างศรีสะเกษ
 </div>
 </div>
 
@@ -543,6 +568,13 @@ button{ width:100%; }
 <div class="heard-text" id="heardText">AI พร้อมรับเสียง...</div>
 </div>
 
+</div>
+
+<div class="teacher-box glass">
+<div class="teacher-title">ผู้พัฒนาโครงการ</div>
+ครูวิทยากร วรรณา<br>
+แผนกอิเล็กทรอนิกส์<br>
+วิทยาลัยสารพัดช่างศรีสะเกษ
 </div>
 
 <div class="footer">AI Reward Learning Machine © 2026</div>
@@ -591,7 +623,6 @@ let isRunning = false;
 // ======================================
 window.onload = () => {
 
-// อัปเดตให้รองรับทั้ง Safari และ Chrome
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
 if (!SpeechRecognition) {
@@ -641,7 +672,7 @@ recognition.onresult = function(event){
 // ======================================
 recognition.onerror = function(event){
     console.log("Recognition Error:", event.error);
-    isRunning = false; // ปลดล็อกสถานะให้กดใหม่ได้
+    isRunning = false; 
     clearInterval(countdownInterval);
     document.getElementById("status").innerHTML = "ไมโครโฟนมีปัญหา ❌";
     document.getElementById("status").className = "status fail";
@@ -650,7 +681,6 @@ recognition.onerror = function(event){
 
 // ======================================
 recognition.onend = function() {
-    // ป้องกันกรณีที่เบราว์เซอร์หยุดรับเสียงไปเองเงียบๆ 
     if(isRunning) {
         console.log("Recognition ended unexpectedly.");
     }
@@ -720,7 +750,6 @@ function startRecognition(){
         return;
     }
 
-    // หากระบบค้างอยู่ ให้พยายามหยุดคำสั่งเดิมก่อน
     if(isRunning) {
         try { recognition.stop(); } catch(e){}
     }
@@ -731,14 +760,14 @@ function startRecognition(){
 
     document.getElementById("countdown").innerHTML = timeLeft;
     document.getElementById("status").innerHTML = "🎤 AI กำลังฟัง...";
-    document.getElementById("status").className = "status"; // เคลียร์สีเก่า
+    document.getElementById("status").className = "status";
     document.getElementById("heardText").innerHTML = "Listening...";
 
     try {
         recognition.start();
     } catch(err){
         console.log("Start Error:", err);
-        isRunning = false; // ปลดล็อกหาก start ล้มเหลว
+        isRunning = false; 
         clearInterval(countdownInterval);
         document.getElementById("status").innerHTML = "เปิดไมค์ไม่ได้ ❌";
         document.getElementById("status").className = "status fail";
